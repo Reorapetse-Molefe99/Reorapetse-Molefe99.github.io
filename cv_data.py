@@ -17,16 +17,15 @@ PROFILE = {
     "title": "Data Scientist | Senior Quantitative Analyst",
     "location": "Sandton, Johannesburg, South Africa",
     "email": "rlmolefe1999@gmail.com",
-    # The phone number is hidden on the public site by default to limit spam.
-    # Set SHOW_PHONE = True to display it.
-    "phone": "+27 (0)79 210 2948",
-    "linkedin": "",  # e.g. "https://www.linkedin.com/in/your-profile" (shown when filled in)
-    "github": "",  # e.g. "https://github.com/your-username" (shown when filled in)
+    # Set SHOW_PHONE = False to hide the phone number on the public site.
+    "phone": "+27 (0) 79 210 2948",
+    "linkedin": "https://www.linkedin.com/in/reorapetse-molefe-4b5753214/",
+    "github": "https://github.com/Reorapetse-Molefe99",
     "photo": "static/img/portrait.jpg",
     "cv_pdf": "static/cv/Reorapetse_Molefe_CV.pdf",
     "cv_updated": "November 2026",
 }
-SHOW_PHONE = False
+SHOW_PHONE = True
 
 # ---------------------------------------------------------------------------
 # Opening section (hero) and "About me"
