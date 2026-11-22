@@ -1,5 +1,7 @@
 # Reorapetse Molefe — CV Website
 
+Live at **https://reorapetsemolefe.co.za** (GitHub Pages, custom domain registered at domains.co.za; renews 22 Nov 2027).
+
 A single-page, animated personal CV website. It is written in Python (Flask + Jinja templates)
 and built into a static site that GitHub Pages hosts for free.
 
@@ -81,5 +83,9 @@ GitHub rebuilds and redeploys the site automatically within about a minute.
    GitHub Actions**. The workflow in `.github/workflows/deploy.yml` then builds and publishes
    the site. Progress shows under the **Actions** tab.
 
-Optional: buy a custom domain (e.g. `reorapetsemolefe.co.za`) and add it under
-Settings → Pages → Custom domain.
+## Custom domain (already set up)
+
+`reorapetsemolefe.co.za` is set under Settings → Pages with **Enforce HTTPS** on. DNS records at
+domains.co.za: four A records (185.199.108.153, .109.153, .110.153, .111.153), four AAAA records
+(2606:50c0:8000::153 … 8003::153) and `www` CNAME → `reorapetse-molefe99.github.io`.
+Don't delete these records, and renew the domain before 22 Nov 2027.
