@@ -209,12 +209,48 @@
       </article>
       {% endfor %}
       {% for a in affiliations %}
-      <article class="edu-card edu-affil reveal" style="--d: 270ms">
+      {% set n_exams = a.exam_groups | sum(attribute='subjects', start=[]) | length %}
+      <button type="button" class="edu-card edu-affil reveal" style="--d: 270ms"
+              data-dialog="dlg-{{ a.id }}" aria-haspopup="dialog">
         <span class="edu-period">Professional affiliation</span>
-        <h3>{{ a }}</h3>
-      </article>
+        <h3>{{ a.name }}</h3>
+        <span class="affil-badge">{{ a.designation }}</span>
+        <span class="affil-more">{{ n_exams }} board exams &amp; exemptions <span aria-hidden="true">→</span></span>
+      </button>
       {% endfor %}
     </div>
+
+    {% for a in affiliations %}
+    {% set n_exams = a.exam_groups | sum(attribute='subjects', start=[]) | length %}
+    <dialog class="affil-dialog" id="dlg-{{ a.id }}" aria-labelledby="dlg-{{ a.id }}-title">
+      <div class="dlg-inner">
+        <button type="button" class="dlg-close" data-close aria-label="Close">×</button>
+        <span class="edu-period">Professional affiliation</span>
+        <h3 id="dlg-{{ a.id }}-title">{{ a.name }}</h3>
+        <p class="dlg-designation"><span class="affil-badge">{{ a.designation }}</span>{{ a.designation_full }}</p>
+
+        <div class="dlg-summary">
+          <strong>{{ n_exams }}</strong>
+          <span>{{ a.exams_title }}<br>across {{ a.exam_groups | length }} stages</span>
+        </div>
+
+        {% for g in a.exam_groups %}
+        <section class="exam-stage" style="--i: {{ loop.index0 }}">
+          <header>
+            <span class="stage-code">{{ g.stage }}</span>
+            <h4>{{ g.name }}</h4>
+            <span class="stage-count">{{ g.subjects | length }}</span>
+          </header>
+          <ul>
+            {% for code, title in g.subjects %}
+            <li><span class="tick" aria-hidden="true">✓</span><span class="exam-code">{{ code }}</span><span>{{ title }}</span></li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endfor %}
+      </div>
+    </dialog>
+    {% endfor %}
 
     <div class="research reveal">
       <div class="research-head">

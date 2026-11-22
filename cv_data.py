@@ -68,7 +68,7 @@ ABOUT = {
         ("Currently", "Manager & Senior Quant Analyst, Old Mutual Bank"),
         ("Studying", "Master of Financial Engineering, UJ"),
         ("Based in", "Sandton, Johannesburg"),
-        ("Member", "Actuarial Society of South Africa"),
+        ("Member", "TASSA, Actuarial Society of South Africa"),
     ],
 }
 
@@ -371,7 +371,45 @@ EDUCATION = [
     },
 ]
 
-AFFILIATIONS = ["Actuarial Society of South Africa (ASSA)"]
+# Professional affiliations. Clicking the card on the website opens a panel listing
+# the exams below. To add a newly passed exam, add it to the right stage's "subjects".
+AFFILIATIONS = [
+    {
+        "id": "assa",
+        "name": "Actuarial Society of South Africa (ASSA)",
+        "designation": "TASSA",
+        "designation_full": "Technical Member of the Actuarial Society of South Africa",
+        "exams_title": "Board exams and exemptions obtained",
+        "exam_groups": [
+            {
+                "stage": "A1",
+                "name": "Foundational Technical",
+                "subjects": [
+                    ("A111", "Actuarial Statistics"),
+                    ("A112", "Business Economics"),
+                    ("A113", "Business Finance"),
+                ],
+            },
+            {
+                "stage": "A2",
+                "name": "Intermediate Technical",
+                "subjects": [
+                    ("A211", "Financial Mathematics"),
+                    ("A212", "Risk Modelling and Survival Analysis"),
+                    ("A213", "Contingencies"),
+                    ("A214", "Actuarial Economic Modelling"),
+                ],
+            },
+            {
+                "stage": "A3",
+                "name": "Core Principles",
+                "subjects": [
+                    ("A311", "Actuarial Risk Management"),
+                ],
+            },
+        ],
+    },
+]
 
 # ---------------------------------------------------------------------------
 # Master's research (summarised from the final dissertation)

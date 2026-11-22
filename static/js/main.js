@@ -143,6 +143,17 @@
     hero.addEventListener("mouseleave", () => { tilt.style.transform = ""; });
   }
 
+  /* ---------- Affiliation dialog (board exams) ---------- */
+  document.querySelectorAll("[data-dialog]").forEach((trigger) => {
+    const dialog = document.getElementById(trigger.dataset.dialog);
+    if (!dialog || typeof dialog.showModal !== "function") return;
+    trigger.addEventListener("click", () => dialog.showModal());
+    dialog.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => dialog.close()));
+    // close when clicking the dimmed backdrop outside the panel
+    dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener("close", () => trigger.focus());
+  });
+
   /* ---------- Copy email ---------- */
   document.querySelectorAll("[data-copy]").forEach((btn) => {
     btn.addEventListener("click", async () => {
