@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ profile.name }} | {{ profile.title }}</title>
+  <meta name="description" content="{{ hero.intro }}">
+  <meta property="og:title" content="{{ profile.name }} | {{ profile.title }}">
+  <meta property="og:description" content="{{ hero.intro }}">
+  <meta property="og:image" content="{{ profile.photo }}">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0B1A2B">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B1A2B'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' dominant-baseline='middle' font-family='Georgia,serif' font-style='italic' font-size='30' fill='%2338C3CF'%3E{{ profile.initials }}%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-loading">
+
+<!-- Loading screen -->
+<div class="loader" aria-hidden="true">
+  <div class="loader-mark">{{ profile.initials }}</div>
+  <div class="loader-text">Loading portfolio</div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<!-- Navigation -->
+<header class="nav" id="top">
+  <a class="nav-logo" href="#" aria-label="Back to top">{{ profile.initials }}</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#about">About</a>
+    <a href="#impact">Impact</a>
+    <a href="#experience">Career</a>
+    <a href="#research">Research</a>
+    <a href="#projects">Projects</a>
+  </nav>
+  <a class="btn btn-small nav-cta" href="#contact">Let's talk</a>
+  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+<div class="mobile-menu" aria-hidden="true">
+  <a href="#about">About</a>
+  <a href="#impact">Impact</a>
+  <a href="#experience">Career</a>
+  <a href="#research">Research</a>
+  <a href="#projects">Projects</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <p class="eyebrow reveal"><span class="dot"></span>{{ hero.eyebrow }}</p>
+      <h1 class="hero-name reveal">
+        {% set parts = profile.name.split(' ') %}
+        {{ parts[0] }} <em>{{ parts[1:] | join(' ') }}</em>
+      </h1>
+      <p class="hero-role reveal" aria-live="polite">
+        <span class="typed" data-roles='{{ hero.roles | tojson }}'>{{ hero.roles[0] }}</span><span class="caret" aria-hidden="true"></span>
+      </p>
+      <p class="hero-intro reveal">{{ hero.intro }}</p>
+      <div class="hero-actions reveal">
+        <a class="btn" href="#contact">Let's talk</a>
+        <a class="btn btn-ghost" href="{{ profile.cv_pdf }}" download>Download CV <span aria-hidden="true">↓</span></a>
+        {% if profile.linkedin %}<a class="btn btn-ghost" href="{{ profile.linkedin }}" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>{% endif %}
+      </div>
+    </div>
+
+    <div class="hero-visual reveal">
+      <div class="portrait-wrap tilt">
+        <div class="portrait-ring" aria-hidden="true"></div>
+        <img class="portrait" src="{{ profile.photo }}" alt="Portrait of {{ profile.name }}" width="640" height="640">
+        <div class="float-card float-top">
+          <span class="float-label">Studying</span>
+          <strong>Master of Financial Engineering</strong>
+          <span class="float-sub">University of Johannesburg</span>
+        </div>
+        <div class="float-card float-bottom">
+          {% for job in experience[:3] %}
+          <div class="mini-row">
+            <span class="mini-when">{% if job.current %}Now{% else %}{{ job.start[-4:] }}{% endif %}</span>
+            <span class="mini-what"><strong>{{ job.company }}</strong><br>{{ job.role }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#about" aria-label="Scroll to About"><span>Scroll</span><i></i></a>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-label="Highlights">
+  <div class="ticker-track">
+    {% for _ in range(2) %}
+      {% for item in ticker %}<span>{{ item }}</span><span class="ticker-sep" aria-hidden="true">✦</span>{% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about">
+  <div class="container about-grid">
+    <div>
+      <p class="section-label reveal">About me</p>
+      <h2 class="statement reveal">“{{ about.statement | md }}”</h2>
+      <dl class="facts reveal">
+        {% for k, v in about.facts %}
+        <div><dt>{{ k }}</dt><dd>{{ v }}</dd></div>
+        {% endfor %}
+      </dl>
+    </div>
+    <div class="about-text">
+      {% for p in about.paragraphs %}<p class="reveal">{{ p | md }}</p>{% endfor %}
+      <div class="skill-cloud reveal">
+        {% for group, items in skills.items() %}
+        <div class="skill-group">
+          <h3>{{ group }}</h3>
+          <div class="chips">{% for s in items %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT ============ -->
+<section class="section section-dark" id="impact">
+  <div class="container">
+    <p class="section-label reveal">Impact</p>
+    <h2 class="section-title reveal">Results that were <em>measured</em></h2>
+    <p class="section-intro reveal">Strategies tested against holdout groups and tracked in production, not just projected.</p>
+    <div class="impact-grid">
+      {% for m in impact %}
+      <article class="impact-card reveal" style="--d: {{ loop.index0 * 80 }}ms">
+        <div class="impact-value">
+          {{ m.prefix }}<span class="count" data-value="{{ m.value }}" data-decimals="{{ m.decimals }}">{{ '%.*f' % (m.decimals, m.value) }}</span>{{ m.suffix }}
+        </div>
+        <p>{{ m.label }}</p>
+        <span class="impact-org">{{ m.org }}</span>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section class="section" id="experience">
+  <div class="container">
+    <p class="section-label reveal">Career</p>
+    <h2 class="section-title reveal">Where I've <em>worked</em></h2>
+    <div class="career reveal">
+      <div class="career-list" role="tablist" aria-label="Roles">
+        {% for job in experience %}
+        <button class="career-tab{% if loop.first %} active{% endif %}" role="tab"
+                id="tab-{{ job.id }}" aria-controls="panel-{{ job.id }}"
+                aria-selected="{{ 'true' if loop.first else 'false' }}">
+          <span class="career-dates">{{ job.start }} – {{ job.end }}</span>
+          <span class="career-role">{{ job.role }}</span>
+          <span class="career-co">{{ job.company }}{% if job.current %} <i class="live" title="Current role"></i>{% endif %}</span>
+        </button>
+        {% endfor %}
+      </div>
+      <div class="career-panels">
+        {% for job in experience %}
+        <article class="career-panel{% if loop.first %} active{% endif %}" role="tabpanel"
+                 id="panel-{{ job.id }}" aria-labelledby="tab-{{ job.id }}"{% if not loop.first %} hidden{% endif %}>
+          <header>
+            <h3>{{ job.role }}</h3>
+            <p class="panel-meta">{{ job.company }} · {{ job.team }} · {{ job.start }} – {{ job.end }}</p>
+            <p class="panel-summary">{{ job.summary }}</p>
+          </header>
+          {% if job.achievements %}
+          <div class="panel-stats">
+            {% for v, l, d in job.achievements[:3] %}
+            <div class="panel-stat"><strong>{{ v }}</strong><span>{{ l }}</span></div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <ul class="panel-points">
+            {% for point in job.highlights %}<li>{{ point }}</li>{% endfor %}
+          </ul>
+          <div class="chips">{% for s in job.skills %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION & RESEARCH ============ -->
+<section class="section section-tint" id="research">
+  <div class="container">
+    <p class="section-label reveal">Education &amp; research</p>
+    <h2 class="section-title reveal">Built on <em>actuarial</em> foundations</h2>
+
+    <div class="edu-grid">
+      {% for edu in education %}
+      <article class="edu-card reveal" style="--d: {{ loop.index0 * 90 }}ms">
+        <span class="edu-period">{{ edu.period }}</span>
+        <h3>{{ edu.degree }}</h3>
+        <p>{{ edu.institution }}</p>
+        {% if edu.note %}<p class="edu-note">{{ edu.note }}</p>{% endif %}
+      </article>
+      {% endfor %}
+      {% for a in affiliations %}
+      <article class="edu-card edu-affil reveal" style="--d: 270ms">
+        <span class="edu-period">Professional affiliation</span>
+        <h3>{{ a }}</h3>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="research reveal">
+      <div class="research-head">
+        <span class="badge">Master's dissertation · UJ</span>
+        <h3>{{ research.title }}</h3>
+        <p class="research-sup">Supervised by {{ research.supervisors }}</p>
+      </div>
+
+      <div class="research-stats">
+        <div><strong>1,000</strong><span>simulated STOXX Europe 600 portfolios, 2010–2025</span></div>
+        <div><strong>100%</strong><span>of out-of-sample combinations where ESG-robust Mean-Variance improved risk-adjusted returns (historical means)</span></div>
+        <div><strong>+4–8</strong><span>ESG points from the Mean-Variance tilt, at no performance cost</span></div>
+        <div><strong>+12–21</strong><span>ESG points from the Mean-CVaR tilt, but at a cost to returns</span></div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Research summary">
+        <button class="tab active" role="tab" aria-selected="true" data-tab="r-problem">The problem</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="r-approach">Approach</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="r-findings">Key findings</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="r-next">What's next</button>
+      </div>
+
+      <div class="tab-panel active" id="r-problem" role="tabpanel">
+        <p>{{ research.problem | md }}</p>
+        <p class="callout"><strong>In one line:</strong> if ESG information is treated as <em>ambiguity</em> rather than <em>risk</em>, do portfolios become more sustainable, and does that cost or improve performance, especially when climate policy is uncertain?</p>
+      </div>
+      <div class="tab-panel" id="r-approach" role="tabpanel" hidden>
+        <ol class="steps">{% for step in research.approach %}<li>{{ step | md }}</li>{% endfor %}</ol>
+      </div>
+      <div class="tab-panel" id="r-findings" role="tabpanel" hidden>
+        <div class="findings">
+          {% for head, body in research.findings %}
+          <div class="finding"><h4>{{ head }}</h4><p>{{ body }}</p></div>
+          {% endfor %}
+        </div>
+        <p class="callout"><strong>Bottom line:</strong> {{ research.conclusion }}</p>
+      </div>
+      <div class="tab-panel" id="r-next" role="tabpanel" hidden>
+        <ul class="steps">{% for item in research.future_work %}<li>{{ item }}</li>{% endfor %}</ul>
+      </div>
+
+      <div class="chips research-keys">{% for k in research.keywords %}<span class="chip">{{ k }}</span>{% endfor %}</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="section" id="projects">
+  <div class="container">
+    <p class="section-label reveal">Projects</p>
+    <h2 class="section-title reveal">Currently <em>building</em></h2>
+    <p class="section-intro reveal">Write-ups, code and results will be added here as each project is completed.</p>
+    <div class="project-grid">
+      {% for p in projects %}
+      <article class="project-card reveal" style="--d: {{ loop.index0 * 90 }}ms">
+        <div class="project-top">
+          <span class="status {{ 'status-done' if p.status == 'Completed' else 'status-live' }}"><i></i>{{ p.status }}</span>
+          <span class="project-period">{{ p.period }}</span>
+        </div>
+        <h3>{{ p.name }}</h3>
+        <p class="project-client">{{ p.client }}</p>
+        <p>{{ p.description }}</p>
+        <div class="chips">{% for s in p.stack %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+        {% if p.link %}<a class="project-link" href="{{ p.link }}" target="_blank" rel="noopener">View project ↗</a>{% endif %}
+      </article>
+      {% endfor %}
+      <article class="project-card project-soon reveal" style="--d: {{ projects | length * 90 }}ms">
+        <span class="soon-icon" aria-hidden="true">+</span>
+        <h3>More projects coming soon</h3>
+        <p>Further data science and quantitative finance projects are underway.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section section-dark contact" id="contact">
+  <div class="container contact-grid">
+    <div>
+      <p class="section-label reveal">Contact</p>
+      <h2 class="contact-title reveal">Let's <em>connect</em></h2>
+      <p class="section-intro reveal">Have a problem that needs data, models or a measurable strategy? I'd love to hear about it.</p>
+    </div>
+    <div class="contact-links reveal">
+      <a class="contact-row" href="mailto:{{ profile.email }}">
+        <span class="contact-k">Email</span><span class="contact-v">{{ profile.email }}</span><span class="arrow">↗</span>
+      </a>
+      <button class="contact-row copy" data-copy="{{ profile.email }}" type="button">
+        <span class="contact-k">Copy</span><span class="contact-v">Copy email address</span><span class="arrow copy-state">⧉</span>
+      </button>
+      {% if profile.linkedin %}
+      <a class="contact-row" href="{{ profile.linkedin }}" target="_blank" rel="noopener">
+        <span class="contact-k">LinkedIn</span><span class="contact-v">Connect with me</span><span class="arrow">↗</span>
+      </a>
+      {% endif %}
+      {% if profile.github %}
+      <a class="contact-row" href="{{ profile.github }}" target="_blank" rel="noopener">
+        <span class="contact-k">GitHub</span><span class="contact-v">See my code</span><span class="arrow">↗</span>
+      </a>
+      {% endif %}
+      {% if show_phone %}
+      <a class="contact-row" href="tel:{{ profile.phone | replace(' ', '') | replace('(0)', '') }}">
+        <span class="contact-k">Phone</span><span class="contact-v">{{ profile.phone }}</span><span class="arrow">↗</span>
+      </a>
+      {% endif %}
+      <a class="contact-row" href="{{ profile.cv_pdf }}" download>
+        <span class="contact-k">CV</span><span class="contact-v">Download PDF ({{ profile.cv_updated }})</span><span class="arrow">↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-line">Always <em>learning</em>, always <em>measuring</em>.</p>
+    <p>© {{ year }} {{ profile.name }} · {{ profile.location }}</p>
+    <a href="#" class="back-top">Back to top ↑</a>
+  </div>
+</footer>
+
+<script src="static/js/main.js" defer></script>
+</body>
+</html>

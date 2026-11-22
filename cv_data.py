@@ -1,8 +1,10 @@
 """
-All CV content for the website lives in this one file.
+All content for the CV website lives in this one file.
 
-To update the website, edit the text below, save, then commit and push to GitHub.
-Streamlit Community Cloud redeploys automatically on every push.
+To update the website: edit the text below, save, check it locally with `python app.py`,
+then commit and push to GitHub. The site rebuilds and redeploys automatically.
+
+Text inside **double asterisks** is shown in bold on the website.
 """
 
 # ---------------------------------------------------------------------------
@@ -10,36 +12,97 @@ Streamlit Community Cloud redeploys automatically on every push.
 # ---------------------------------------------------------------------------
 PROFILE = {
     "name": "Reorapetse Molefe",
-    "title": "Data Scientist  |  Senior Quantitative Analyst",
-    "location": "Sandton, Gauteng, South Africa",
+    "first_name": "Reorapetse",
+    "initials": "RM",
+    "title": "Data Scientist | Senior Quantitative Analyst",
+    "location": "Sandton, Johannesburg, South Africa",
     "email": "rlmolefe1999@gmail.com",
     # The phone number is hidden on the public site by default to limit spam.
     # Set SHOW_PHONE = True to display it.
     "phone": "+27 (0)79 210 2948",
     "linkedin": "",  # e.g. "https://www.linkedin.com/in/your-profile" (shown when filled in)
     "github": "",  # e.g. "https://github.com/your-username" (shown when filled in)
-    "cv_pdf": "assets/Reorapetse_Molefe_CV.pdf",
+    "photo": "static/img/portrait.jpg",
+    "cv_pdf": "static/cv/Reorapetse_Molefe_CV.pdf",
     "cv_updated": "November 2026",
 }
 SHOW_PHONE = False
 
-SUMMARY = (
-    "Data scientist and quantitative analyst with nearly five years of experience in banking, "
-    "credit risk, collections analytics and data science. I combine machine learning, feature "
-    "engineering and business strategy to solve credit collections problems, and my strategies "
-    "have measurably improved recoveries and roll rates. I am completing a Master's in "
-    "Financial Engineering, with research on robust, ESG-aware portfolio optimisation under "
-    "climate policy uncertainty. Since October 2026 I have also been building an end-to-end "
-    "e-commerce website and clickstream analytics platform for a craft cocktail company, using "
-    "AI coding agents (Claude Code) and Databricks."
-)
+# ---------------------------------------------------------------------------
+# Opening section (hero) and "About me"
+# ---------------------------------------------------------------------------
+HERO = {
+    "eyebrow": "Data scientist in banking since 2022",
+    # These rotate in the typing animation under your name.
+    "roles": [
+        "Data Scientist",
+        "Senior Quantitative Analyst",
+        "Collections Strategist",
+        "Financial Engineering Researcher",
+        "Data & AI Engineer",
+    ],
+    "intro": (
+        "I turn credit data into decisions that change outcomes for customers and lenders, "
+        "and I measure every one of them."
+    ),
+}
 
-# Headline numbers shown on the home page.
-HEADLINE_METRICS = [
-    ("~5 yrs", "Banking, credit risk and data science"),
-    ("R3.0m", "Collections from settlement offer models"),
-    ("+45%", "Promise-to-pay arrangements in first month"),
-    ("2×", "Activation rate on escalated CD2 accounts"),
+ABOUT = {
+    "statement": "Good strategy is *measured*, not assumed.",
+    "paragraphs": [
+        "I'm Reorapetse, a data scientist and quantitative analyst based in Johannesburg. "
+        "I started out in **actuarial science and mathematical statistics at Wits**, then joined "
+        "FNB's quantitative analyst graduate programme in 2022. I've spent nearly five years "
+        "since then in credit risk and collections, building machine learning models, dialler "
+        "strategies and dashboards that help banks reach the right customer at the right time "
+        "with the right offer.",
+        "I'm happiest where analysis meets action. A model is only as good as the decision it "
+        "changes, so I build strategies with operations teams, test them against holdout groups "
+        "and track them until the results are clear: **R3 million collected** by settlement offer "
+        "models, **45% more promise-to-pay arrangements** and **activation rates that doubled**.",
+        "Outside my day job, I'm finishing a **Master's in Financial Engineering at UJ**, "
+        "researching how ESG ambiguity and climate policy uncertainty should shape sustainable "
+        "portfolios. I'm also building an e-commerce and clickstream analytics platform for a "
+        "craft cocktail company with AI coding agents and Databricks.",
+    ],
+    "facts": [
+        ("Currently", "Manager & Senior Quant Analyst, Old Mutual Bank"),
+        ("Studying", "Master of Financial Engineering, UJ"),
+        ("Based in", "Sandton, Johannesburg"),
+        ("Member", "Actuarial Society of South Africa"),
+    ],
+}
+
+# Scrolling ticker under the opening section.
+TICKER = [
+    "R3m+ collected by settlement offer models",
+    "+45% promise-to-pay arrangements",
+    "2× activation on escalated accounts",
+    "~5 years in banking & credit risk",
+    "Master's in Financial Engineering",
+]
+
+# Animated counters in the "Impact" section.
+# value is counted up from zero; prefix/suffix are shown around it.
+IMPACT = [
+    {"prefix": "R", "value": 2.3, "decimals": 1, "suffix": "m",
+     "label": "Collected by the Settlement Offer ML V2 model on its first implementation",
+     "org": "FNB"},
+    {"prefix": "+", "value": 45, "decimals": 0, "suffix": "%",
+     "label": "Promise-to-pay arrangements in the first month of the CD0–CD1 inflow strategy",
+     "org": "Old Mutual Bank"},
+    {"prefix": "", "value": 10.75, "decimals": 2, "suffix": "%",
+     "label": "Activation rate on escalated CD2 accounts, versus 5.21% for the holdout group",
+     "org": "Old Mutual Bank"},
+    {"prefix": "+", "value": 17, "decimals": 0, "suffix": "%",
+     "label": "Arrangement volumes after automating PTP target-setting",
+     "org": "Old Mutual Bank"},
+    {"prefix": "", "value": 2, "decimals": 0, "suffix": " pp",
+     "label": "Improvement in the CD2 forward roll rate since the EDC handover strategy",
+     "org": "Old Mutual Bank"},
+    {"prefix": "R", "value": 700, "decimals": 0, "suffix": "k",
+     "label": "Collected in the Settlement Offer V1 trial campaign",
+     "org": "FNB"},
 ]
 
 # ---------------------------------------------------------------------------

@@ -1,25 +1,24 @@
 # Reorapetse Molefe — CV Website
 
-A personal CV website built in Python with [Streamlit](https://streamlit.io).
+A single-page, animated personal CV website. It is written in Python (Flask + Jinja templates)
+and built into a static site that GitHub Pages hosts for free.
 
-Pages: **Home · Experience · Accomplishments · Education & Research · Projects**
+Sections: **Intro · About · Impact · Career · Education & Research · Projects · Contact**
 
 ## Project structure
 
 ```
 cv-website/
-├── streamlit_app.py        # Entry point: page config + navigation
-├── cv_data.py              # ALL website content (edit this to update the site)
-├── ui.py                   # Shared styling (CSS) and small HTML components
-├── views/
-│   ├── home.py
-│   ├── experience.py
-│   ├── accomplishments.py
-│   ├── education.py        # Includes the master's research summary
-│   └── projects.py
-├── assets/
-│   └── Reorapetse_Molefe_CV.pdf   # Served by the "Download CV" button
-├── .streamlit/config.toml  # Theme colours
+├── cv_data.py              # ALL website content — edit this to update the site
+├── app.py                  # Flask app (local preview server)
+├── build.py                # Builds the static site into dist/
+├── templates/index.html    # Page layout
+├── static/
+│   ├── css/style.css       # Colours, fonts, animations (colours are at the top)
+│   ├── js/main.js          # Interactions: typing effect, counters, tabs, scroll reveal
+│   ├── img/portrait.jpg    # Your photo
+│   └── cv/Reorapetse_Molefe_CV.pdf   # Served by the "Download CV" buttons
+├── .github/workflows/deploy.yml      # Auto-deploys to GitHub Pages on every push
 └── requirements.txt
 ```
 
@@ -30,23 +29,29 @@ cd ~/Documents/cv-website
 python3 -m venv .venv            # first time only
 source .venv/bin/activate
 pip install -r requirements.txt  # first time only
-streamlit run streamlit_app.py
+python app.py
 ```
 
-The site opens at http://localhost:8501. It reloads automatically when you save a file.
+Open http://localhost:8501. The server reloads when you save a Python file. Refresh the
+browser to see changes.
 
 ## Common edits
 
 | To change… | Edit |
 |---|---|
-| Wording of any role, bullet or summary | `cv_data.py` → `EXPERIENCE`, `SUMMARY` |
-| Headline numbers on the home page | `cv_data.py` → `HEADLINE_METRICS` |
-| Accomplishment tiles | `cv_data.py` → each role's `achievements` list |
+| Intro line, rotating job titles | `cv_data.py` → `HERO` |
+| About me text and quick facts | `cv_data.py` → `ABOUT` |
+| Scrolling highlights strip | `cv_data.py` → `TICKER` |
+| Animated impact numbers | `cv_data.py` → `IMPACT` |
+| Roles, bullets, per-role stats | `cv_data.py` → `EXPERIENCE` |
 | Research summary | `cv_data.py` → `RESEARCH` |
 | Add a project | `cv_data.py` → append to `PROJECTS` (set `status` to `"Completed"`, add `link`) |
-| Show phone number / add LinkedIn | `cv_data.py` → `SHOW_PHONE`, `PROFILE["linkedin"]` |
-| Update the downloadable CV | Replace `assets/Reorapetse_Molefe_CV.pdf` (keep the same file name) |
-| Colours / fonts | `ui.py` (CSS) and `.streamlit/config.toml` |
+| Show phone / add LinkedIn or GitHub | `cv_data.py` → `SHOW_PHONE`, `PROFILE["linkedin"]`, `PROFILE["github"]` |
+| Photo | Replace `static/img/portrait.jpg` (keep the file name) |
+| Downloadable CV | Replace `static/cv/Reorapetse_Molefe_CV.pdf` (keep the file name) |
+| Colours / fonts | Top of `static/css/style.css` |
+
+Wrap text in `**double asterisks**` in `cv_data.py` to make it bold on the site.
 
 ## Publish changes
 
@@ -56,23 +61,25 @@ git commit -m "Describe your change"
 git push
 ```
 
-Streamlit Community Cloud redeploys automatically within about a minute of each push.
+GitHub rebuilds and redeploys the site automatically within about a minute.
 
 ## Deploy (first time)
 
 1. Create a free GitHub account at https://github.com/signup.
-2. Create a new **empty** repository named `cv-website` (no README, no .gitignore).
+2. Create a new **public**, **empty** repository (no README). The name decides your address:
+   - `<your-username>.github.io` → site at `https://<your-username>.github.io`
+   - any other name, e.g. `cv-website` → site at `https://<your-username>.github.io/cv-website`
 3. Connect this folder to it and push:
    ```bash
-   git remote add origin https://github.com/<your-username>/cv-website.git
+   git remote add origin https://github.com/<your-username>/<repo-name>.git
    git push -u origin main
    ```
-   When asked for a password, use a GitHub **personal access token**, not your account
-   password (GitHub → Settings → Developer settings → Personal access tokens). Alternatively,
-   install the GitHub CLI (`brew install gh`, then `gh auth login`) and it handles this for you.
-4. Go to https://share.streamlit.io, sign in with GitHub, click **Create app**, choose
-   the `cv-website` repo, branch `main`, main file `streamlit_app.py`, and pick a custom
-   subdomain (e.g. `reorapetse-molefe.streamlit.app`). Click **Deploy**.
+   When asked for a password, use a GitHub **personal access token** (GitHub → Settings →
+   Developer settings → Personal access tokens), or install the GitHub CLI
+   (`brew install gh`, then `gh auth login`), which handles sign-in for you.
+4. In the repository on GitHub: **Settings → Pages → Build and deployment → Source:
+   GitHub Actions**. The workflow in `.github/workflows/deploy.yml` then builds and publishes
+   the site. Progress shows under the **Actions** tab.
 
-Apps on the free tier go to sleep after a period with no visitors; the first visitor
-afterwards waits a few seconds for it to wake up.
+Optional: buy a custom domain (e.g. `reorapetsemolefe.co.za`) and add it under
+Settings → Pages → Custom domain.
