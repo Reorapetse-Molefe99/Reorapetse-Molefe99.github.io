@@ -293,7 +293,7 @@ body:not(.is-loading) .loader { opacity: 0; visibility: hidden; }
 .soon-icon { width: 54px; height: 54px; border-radius: 50%; border: 1px dashed var(--muted); display: grid; place-items: center; font-size: 1.6rem; }
 
 /* ---------- Contact ---------- */
-.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 .contact-title { font-size: clamp(3rem, 9vw, 7rem); margin-bottom: 1.2rem; }
 .contact-links { display: grid; border-top: 1px solid var(--line-dark); }
 .contact-row {
