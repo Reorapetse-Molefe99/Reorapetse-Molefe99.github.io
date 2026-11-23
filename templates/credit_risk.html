@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} · {{ project.name }} | {{ profile.name }}</title>
+  <meta name="description" content="{{ project.name }}: {{ page.summary }}">
+  <meta property="og:title" content="{{ project.name }} · {{ page.title }}">
+  <meta property="og:description" content="{{ project.intro }}">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0B1A2B">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B1A2B'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' dominant-baseline='middle' font-family='Georgia,serif' font-style='italic' font-size='30' fill='%2338C3CF'%3E{{ profile.initials }}%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ root }}static/css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="dash-page">
+
+<!-- Navigation (same as the home page; links point back to its sections) -->
+<header class="nav" id="top">
+  <a class="nav-logo" href="{{ root }}" aria-label="Home">{{ profile.initials }}</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="{{ root }}#about">About</a>
+    <a href="{{ root }}#impact">Impact</a>
+    <a href="{{ root }}#experience">Career</a>
+    <a href="{{ root }}#research">Research</a>
+    <a href="{{ root }}#projects" class="active">Projects</a>
+  </nav>
+  <a class="btn btn-small nav-cta" href="{{ root }}#contact">Let's talk</a>
+  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+<div class="mobile-menu" aria-hidden="true">
+  <a href="{{ root }}#about">About</a>
+  <a href="{{ root }}#impact">Impact</a>
+  <a href="{{ root }}#experience">Career</a>
+  <a href="{{ root }}#research">Research</a>
+  <a href="{{ root }}#projects">Projects</a>
+  <a href="{{ root }}#contact">Contact</a>
+</div>
+
+<main>
+
+<!-- ============ PROJECT HEADER ============ -->
+<section class="project-hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container">
+    <a class="crumb" href="{{ root }}#projects">← All projects</a>
+    <div class="project-tags">
+      <span class="status status-done"><i></i>{{ project.status }}</span>
+      <span class="tag-label">{{ project.label }}</span>
+      <span class="tag-period">{{ project.period }}</span>
+    </div>
+    <h1>Credit Risk <em>ML Platform</em></h1>
+    <p class="lead">{{ project.intro }}</p>
+    <dl class="dash-stats">
+      {% for value, label in project.highlights %}
+      <div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>
+      {% endfor %}
+    </dl>
+    <div class="dash-actions">
+      <a class="btn" href="{{ project.github }}" target="_blank" rel="noopener">View the code ↗</a>
+      <a class="btn btn-ghost" href="{{ project.api_docs }}" target="_blank" rel="noopener">Scoring API docs ↗</a>
+    </div>
+    <div class="chips chips-dark">{% for s in project.stack %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+  </div>
+</section>
+
+<!-- ============ DASHBOARD ============ -->
+<section class="dash-body">
+  <div class="container">
+    <nav class="dash-tabs" aria-label="Dashboard pages">
+      {% for p in project.pages %}
+      <a href="{{ base }}{{ p.slug + '/' if p.slug else '' }}"{% if p.slug == page.slug %} aria-current="page"{% endif %}>{{ p.tab }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="dash-head">
+      <div>
+        <h2>{{ page.title }}</h2>
+        <p>{{ page.summary }}</p>
+      </div>
+      <a class="project-link" href="{{ full_app }}" target="_blank" rel="noopener">Open full screen ↗</a>
+    </div>
+
+    <div class="dash-about">
+      <p class="dash-about-label">About this page</p>
+      {% for para in page.about %}<p>{{ para | md }}</p>{% endfor %}
+    </div>
+
+    <div class="dash-frame">
+      <iframe src="{{ embed }}" title="{{ project.name }}: {{ page.title }}" allow="clipboard-write"></iframe>
+    </div>
+    <p class="dash-note">
+      Live demo on free hosting: after a quiet spell the dashboard and API take up to a minute to wake up
+      (choose <em>“Yes, get this app back up”</em> if asked). It scores 5,000 simulated applications, because the Home Credit data can't be
+      redistributed; the model does somewhat less well on them (AUC about 0.70) than on the real data (0.769). Amounts are in the lender's
+      undisclosed local currency.
+    </p>
+
+    {% for section in page.sections or [] %}
+    <div class="dash-section">
+      <h3>{{ section.title }}</h3>
+      {% for para in section.paragraphs or [] %}<p>{{ para | md }}</p>{% endfor %}
+      {% if section.rows %}
+      <div class="table-wrap">
+        <table class="guide-table{% if section.head | length > 3 %} table-numbers{% endif %}">
+          <thead><tr>{% for h in section.head %}<th scope="col">{{ h }}</th>{% endfor %}</tr></thead>
+          <tbody>
+          {% for row in section.rows %}
+            <tr><th scope="row">{{ row[0] }}</th>{% for cell in row[1:] %}<td data-label="{{ section.head[loop.index] }}">{{ cell | md }}</td>{% endfor %}</tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+      {% if section.caption %}<p class="dash-caption">{{ section.caption }}</p>{% endif %}
+    </div>
+    {% endfor %}
+
+    <div class="dash-guide">
+      {% if page.controls %}
+      <h3>Controls and what they change</h3>
+      <div class="table-wrap">
+        <table class="guide-table">
+          <thead><tr><th scope="col">Control</th><th scope="col">What it does</th><th scope="col">What changes when you use it</th></tr></thead>
+          <tbody>
+          {% for name, does, effect in page.controls %}
+            <tr><th scope="row">{{ name }}</th><td data-label="What it does">{{ does | md }}</td><td data-label="What changes">{{ effect | md }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+
+      <h3>What the numbers and charts mean</h3>
+      <div class="table-wrap">
+        <table class="guide-table">
+          <thead><tr><th scope="col">Shown on the page</th><th scope="col">What it means</th><th scope="col">How to read it</th></tr></thead>
+          <tbody>
+          {% for name, meaning, reading in page.variables %}
+            <tr><th scope="row">{{ name }}</th><td data-label="What it means">{{ meaning | md }}</td><td data-label="How to read it">{{ reading | md }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% set i = project.pages.index(page) %}
+    <div class="dash-pager">
+      {% if i > 0 %}{% set prev = project.pages[i - 1] %}
+      <a href="{{ base }}{{ prev.slug + '/' if prev.slug else '' }}"><span>Previous</span>← {{ prev.tab }}</a>
+      {% else %}<span></span>{% endif %}
+      {% if i < project.pages | length - 1 %}{% set nxt = project.pages[i + 1] %}
+      <a class="next" href="{{ base }}{{ nxt.slug }}/"><span>Next</span>{{ nxt.tab }} →</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-line">Always <em>learning</em>, always <em>measuring</em>.</p>
+    <p>© {{ year }} {{ profile.name }} · {{ profile.location }}</p>
+    <a href="#top" class="back-top">Back to top ↑</a>
+  </div>
+</footer>
+
+<script src="{{ root }}static/js/main.js" defer></script>
+<script>
+  // On narrow screens the tab bar scrolls sideways: bring the current page's tab into view.
+  (function () {
+    const tabs = document.querySelector(".dash-tabs"), current = tabs && tabs.querySelector("[aria-current]");
+    if (current) tabs.scrollLeft = current.offsetLeft - (tabs.clientWidth - current.offsetWidth) / 2;
+  })();
+</script>
+</body>
+</html>

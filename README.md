@@ -48,6 +48,7 @@ browser to see changes.
 | Roles, bullets, per-role stats | `cv_data.py` → `EXPERIENCE` |
 | Research summary | `cv_data.py` → `RESEARCH` |
 | Add a project | `cv_data.py` → append to `PROJECTS` (set `status` to `"Completed"`, add `link`) |
+| Credit Risk project pages (`/projects/credit-risk/…`) | `cv_data.py` → `CREDIT_RISK`; layout in `templates/credit_risk.html`. Each tab embeds a page of the Streamlit dashboard with `?embed=true&site=1` |
 | Show phone / add LinkedIn or GitHub | `cv_data.py` → `SHOW_PHONE`, `PROFILE["linkedin"]`, `PROFILE["github"]` |
 | Photo | Replace `static/img/portrait.jpg` (keep the file name) |
 | Downloadable CV | Replace `static/cv/Reorapetse_Molefe_CV.pdf` (keep the file name) |
