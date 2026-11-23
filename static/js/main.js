@@ -37,7 +37,9 @@
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
   /* ---------- Active nav link ---------- */
-  const navLinks = Array.from(document.querySelectorAll(".nav-links a"));
+  // Only in-page links (#section): project pages link back to the home page instead.
+  const navLinks = Array.from(document.querySelectorAll(".nav-links a"))
+    .filter((a) => a.getAttribute("href").startsWith("#"));
   const sections = navLinks.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {

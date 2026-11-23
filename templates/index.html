@@ -314,7 +314,7 @@
         <p class="project-client">{{ p.client }}</p>
         <p>{{ p.description }}</p>
         <div class="chips">{% for s in p.stack %}<span class="chip">{{ s }}</span>{% endfor %}</div>
-        {% if p.link %}<a class="project-link" href="{{ p.link }}" target="_blank" rel="noopener">View project ↗</a>{% endif %}
+        {% if p.link %}<a class="project-link" href="{{ p.link }}"{% if p.link.startswith('http') %} target="_blank" rel="noopener"{% endif %}>{{ p.link_text or 'View project ↗' }}</a>{% endif %}
       </article>
       {% endfor %}
       <article class="project-card project-soon reveal" style="--d: {{ projects | length * 90 }}ms">
